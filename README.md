@@ -4,21 +4,28 @@
 
 # Pubvana Profiles
 
-User profiles module for [Pubvana](https://pubvana.com). Built as a [Flight School](https://github.com/enlivenapp/flight-school) plugin. Adds profile fields (display name, bio, avatar, social links) to Shield users via the admin extension system.
+User profiles module for [Pubvana](https://pubvanacms.com). Built as a [Flight School](https://github.com/enlivenapp/flight-school) plugin. 
 
 ## Features
 
-- Self-service profile page at `/admin/profile`
-- Profile tab injected into the admin user edit form via `adext`
-- Avatar selection via the media picker widget
+- Per-user profile records linked to Shield users
+- Avatar support via the media picker widget
 - Profile fields: display name, bio, avatar, website, Twitter, Facebook, LinkedIn
+- Registers an `adext` page contribution for user edit tabs when admin is present
 
 ## Requirements
 
 - PHP 8.1+
-- `enlivenapp/flight-school` ^0.2
-- `enlivenapp/flight-shield` ^0.1
-- `pubvana/admin`
+- `enlivenapp/flight-school` 
+- `enlivenapp/flight-shield` 
+- `enlvienapp/migrations`
+- `flightphp/active-record`
+
+## Recommends
+
+- `pubvana/admin` (The head for Pubvana headless)
+- `pubvana/media` (for Avatar Image support)
+
 
 ## Installation
 
@@ -37,19 +44,10 @@ Enable in `app/config/config.php`:
 ],
 ```
 
-The migration creates the `profiles` table automatically on first load.
+Migrations package creates the `profiles` table automatically on first load.
 
-## How it works
 
-### Self-service page
-
-Logged-in admin users can edit their own profile at `/admin/profile`. The `ProfileController` finds or creates a profile row for the current user and renders the edit form.
-
-### User edit tab
-
-The plugin registers a **Profile** tab on the admin user edit page via `adext('page', 'users.edit.tabs', ...)`. When an admin edits any user, the profile fields appear as an additional tab. The tab callable returns field definitions — admin renders the form.
-
-### Model
+## Model
 
 The `Profile` model provides:
 

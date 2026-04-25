@@ -13,7 +13,12 @@
         "php": "^8.1",
         "enlivenapp/flight-school": "^0.2",
         "enlivenapp/flight-shield": "^0.1",
-        "pubvana/admin": "*"
+        "enlivenapp/migrations": "^0.1",
+        "flightphp/active-record": "^0.5"
+    },
+    "suggest": {
+        "pubvana/admin": "Admin UI for self-service profile page and user edit tab",
+        "pubvana/media": "Avatar selection via the media picker widget"
     },
     "autoload": {
         "psr-4": {
