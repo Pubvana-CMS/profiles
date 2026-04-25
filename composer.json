@@ -1,12 +1,12 @@
 {
     "name": "pubvana/profiles",
-    "description": "",
+    "description": "Profile manager for Pubvana",
     "type": "flightphp-plugin",
     "license": "MIT",
     "authors": [
         {
             "name": "pubvana",
-            "email": ""
+            "email": "cs@pubvana.net"
         }
     ],
     "require": {
