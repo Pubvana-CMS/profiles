@@ -60,6 +60,17 @@ class Profile extends \flight\ActiveRecord
     }
 
     /**
+     * Find or create a profile, then update it from an array of field values.
+     */
+    public function updateProfile(int $userId, array $data): self
+    {
+        $profile = $this->findOrCreate($userId);
+        $profile->updateFromArray($data);
+
+        return $profile;
+    }
+
+    /**
      * Update profile fields from an associative array.
      */
     public function updateFromArray(array $data): void

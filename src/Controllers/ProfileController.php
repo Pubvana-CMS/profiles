@@ -5,22 +5,19 @@ declare(strict_types=1);
 namespace Pubvana\Profiles\Controllers;
 
 use Pubvana\Admin\Controllers\AdminController;
-use Pubvana\Profiles\Models\Profile;
 
+/**
+ * Admin controller for user profile self-service and tab-based updates.
+ */
 class ProfileController extends AdminController
 {
-    protected function model(): Profile
-    {
-        return new Profile($this->app->get('db'));
-    }
-
     /**
      * Self-service profile page for the current admin user.
      */
     public function index(): void
     {
         $user    = $this->app->auth()->user();
-        $profile = $this->model()->findOrCreate((int) $user->id);
+        $profile = $this->app->profiles()->findOrCreate((int) $user->id);
 
         $this->render('profile/index', [
             'pageTitle' => 'My Profile',
@@ -35,12 +32,10 @@ class ProfileController extends AdminController
      */
     public function update(string $userId): void
     {
-        $profile = $this->model()->findOrCreate((int) $userId);
-
         $post = $this->app->request()->data->getData();
         unset($post['_csrf_token'], $post['return_url']);
 
-        $profile->updateFromArray($post);
+        $this->app->profiles()->updateProfile((int) $userId, $post);
 
         $returnUrl = $this->app->request()->data->return_url ?? '/admin/profile';
         $this->app->redirect($returnUrl);

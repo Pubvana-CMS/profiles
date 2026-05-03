@@ -7,6 +7,7 @@ namespace Pubvana\Profiles;
 use Enlivenapp\FlightSchool\PluginInterface;
 use flight\Engine;
 use flight\net\Router;
+use Flight;
 use Pubvana\Profiles\Models\Profile;
 
 class Plugin implements PluginInterface
@@ -15,7 +16,6 @@ class Plugin implements PluginInterface
      * Register profile extensions into the admin.
      *
      * Registers:
-     *   - menu: SEO submenu under tools (test fixture)
      *   - page: Profile tab on users.edit.tabs
      *
      * @param Engine $app    The FlightPHP app instance
@@ -24,13 +24,21 @@ class Plugin implements PluginInterface
      */
     public function register(Engine $app, Router $router, array $config = []): void
     {
+        $app->map('profiles', function () {
+            static $instance = null;
+            if ($instance === null) {
+                $instance = new Profile(Flight::db());
+            }
+
+            return $instance;
+        });
+
         // Tab on the user edit form
         $app->adext('page', 'users.edit.tabs', 'pubvana.profile', [
             'label'    => 'Profile',
             'priority' => 20,
             'callable' => function (array $context) use ($app) {
-                $model   = new Profile($app->get('db'));
-                $profile = $model->findOrCreate($context['user_id']);
+                $profile = $app->profiles()->findOrCreate((int) $context['user_id']);
 
                 return [
                     'fields' => [

@@ -6,6 +6,6 @@
  * @license   MIT
  */
 
-$routePrepend = 'profile';
-
-return [];
+return [
+    'routePrepend' => 'profile',
+];
