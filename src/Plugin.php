@@ -33,6 +33,13 @@ class Plugin implements PluginInterface
             return $instance;
         });
 
+        $app->adext('head', 'css', 'pubvana.profiles', [
+            'priority' => 50,
+            'files'    => ['css/profiles.css'],
+            'vendor'   => 'pubvana',
+            'package'  => 'profiles',
+        ]);
+
         // Tab on the user edit form
         $app->adext('page', 'users.edit.tabs', 'pubvana.profile', [
             'label'    => 'Profile',
